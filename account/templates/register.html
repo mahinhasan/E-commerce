@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="p-4 m-4">
+        <div class="col-lg-5 mx-auto border rounded py-4 px-4">
+            <h3 class="alert alert-light border rounded" style="text-align: center;"> Create An Account </h3>
+            <form action="register" method="POST">
+                {% csrf_token %}
+
+                {% if error%}
+                <div class="alert alert-danger" role="alert">
+                  {{ error }}
+                </div>
+                {% endif %}
+                <div class="form-group">
+                    <label class="mb-2" for="">First Name: </label>
+                    <input type="text" name="fname" id="" class="form-control" placeholder="Enter first name"
+                        aria-describedby="helpId">
+
+                </div>
+                <div class="form-group">
+                <label class="mb-2" for="">Last Name: </label>
+                <input type="text" name="lname" id="" class="form-control" placeholder="Enter last name"
+                    aria-describedby="helpId">
+                </div>
+                
+                <div class="form-group">
+                    <label class="mb-2" for="">Email: </label>
+                    <input type="email" name="email" id="" class="form-control" placeholder="example@gmailcom"
+                        aria-describedby="helpId">
+                </div>
+
+                <div class="form-group">
+                    <label class="mb-2" for="">Phone number: </label>
+                    <input type="text" name="phone" id="" class="form-control" placeholder="Phone number"
+                        aria-describedby="helpId">
+                </div>
+
+                <div class="form-group">
+                    <label class="mb-2" for="">Address: </label>
+                    <textarea class="form-control" name="address" id="" cols="48" rows="5" placeholder="Enter Your Full address"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="mb-2" for="">Password: </label>
+                    <input type="password" name="password" id="" class="form-control" placeholder="password"
+                        aria-describedby="helpId">
+                </div>
+                <div class="form-group mt-3">
+                    <input type="submit" class="btn btn-secondary btn" value="Create Account">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

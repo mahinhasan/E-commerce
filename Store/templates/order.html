@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load cart %}
+<!--Cart body-->
+<div class="container">
+
+    {{name}}
+    <div class="border rounded p-4 m-4"
+        style="font-family:'Courier New', Courier, monospace; color:rgb(43, 226, 113);background-color: rgb(204, 150, 80)">
+
+        <h4 class="display-4 pl-4 ml-4 " style="text-align: center;">My Orders</h4>
+        <hr>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Serial no.</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Order Date</th>
+                    <th>Price</th>
+                    <th>Quantatiy</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td><img class="rounded-circle" style="height: 70px;" src="{{order.product.image.url}}" alt=""></td>
+                    <td>{{order.product.name}}</td>
+                    <td>{{order.date}}</td>
+                    <td>{{order.price|currency}}</td>
+                    <td>{{order.quantity}}</td>
+                    <td>{{order.quantity|multipy:order.price }}</td>
+                    
+                    {% if order.status %}
+                    <td><small>completed</small></td>
+                    {% elif order.present %}
+                    <td><small>Canceled</small></td>
+                    {%else %}
+                    <td><small>order pending</small></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+
+
+
+{% endblock %}

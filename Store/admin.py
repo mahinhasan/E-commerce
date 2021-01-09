@@ -9,5 +9,9 @@ class AdminProduct(admin.ModelAdmin):
 class AdminCategory(admin.ModelAdmin):
     list_display = ['name']
 
+class AdminOrder(admin.ModelAdmin):
+    list_display = ['product','customer','quantity']
+
 admin.site.register(Product,AdminProduct)
 admin.site.register(Category,AdminCategory)
+admin.site.register(Order,AdminOrder)

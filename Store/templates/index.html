@@ -3,31 +3,72 @@
 
 {% block content %}
 
+{% load cart %}
+
 <div class="container-fluid mt-4">
     <div class="row">
 
         <div class="col-lg-2 mx-auto">
             <div class="list-group">
+                <a href="/" class="list-group-item list-group-item-action ">All products</a>
+
                 {% for c in categories %}
-                <a href="#" class="list-group-item list-group-item-action ">{{c.name}}</a>
+                <a href="/?category={{c.id}} " class="list-group-item list-group-item-action ">{{c.name}}</a>
                 {% endfor %}
-        
+
             </div>
         </div>
 
         <div id="products" class="col-lg-10 mx-auto">
             <div class="row mx-auto">
                 {% for p in product %}
-        
-                <div class="card mx-auto mb-4" style="width: 25rem;">
+                
+
+                <div class="card mx-auto mb-4" id="{{p.id}}" style="width: 25rem;">
                     <img src="{{ p.image.url }}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{p.name}}</h5>
                         <p class="card-text">{{p.category.name}}</p>
-                        <p class="card-text">{{p.price }}</p>
-        
-                        <a href="#" class="btn btn-secondary border btn-sm">Add to Card</a>
+                        <p class="card-text">{{p.price|currency }}</p>
+                       <!-- <div hidden >{{p | is_In_cart:request.session.cart}}</div>  -->
+                       
                     </div>
+                    <!--Add itram to Card  and remove -->
+                    <div class="card-footer row nu gutters p-2">
+                        {% if p|is_In_cart:request.session.cart %}
+                        
+                        <div class="row">
+                            <!--Remove value from cart -->
+                            <form action="/#{{p.id}}" method="POST" class="col-2">
+                                {% csrf_token %}
+                                <!--Decreasing product button-->
+                                <input hidden name='product' type="text" value="{{p.id}}">
+                                <input hidden name='remove' type="text" value="True">
+                                <input type="submit" value="-" class="btn btn-block btn-secondary">
+
+                            </form>
+
+                            <div class="text-center col">{{ p|cart_quantity:request.session.cart }} in cart</div>
+                            <!--Adding value to cart -->
+                            <form action="/#{{p.id}}" method="POST" class="col-2">
+                                {% csrf_token %}
+                                <!--Increasing product button-->
+                                <input hidden name='product' type="text" value="{{p.id}}">
+                                <input type="submit" value="+" class="btn btn-block btn-secondary">
+
+                            </form>
+                        </div>
+                        {% else %}
+                        <form action="/#{{p.id}}" method="POST" class="btn-block ">
+                            {% csrf_token %}
+                            <input hidden name='product' type="text" value="{{p.id}}">
+                            <input type="submit" class="float-right btn-secondary btn-block form-control "
+                                value="Add to Card">
+
+                        </form>
+                        {% endif %}
+                    </div>
+
                 </div>
                 {% endfor %}
             </div>
@@ -35,4 +76,7 @@
     </div>
 
 </div>
+
+
+
 {% endblock %}
